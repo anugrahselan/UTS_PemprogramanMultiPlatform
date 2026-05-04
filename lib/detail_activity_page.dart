@@ -10,9 +10,7 @@ class DetailActivityPage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Detail Aktivitas'),
-      ),
+      appBar: AppBar(title: const Text('Detail Aktivitas')),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -38,13 +36,14 @@ class DetailActivityPage extends StatelessWidget {
                       Text(
                         'Aktivitas Anda:',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: Colors.grey[600],
-                            ),
+                          color: Colors.grey[600],
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Text(
                         activityName,
-                        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                        style: Theme.of(context).textTheme.displayLarge
+                            ?.copyWith(
                               color: Theme.of(context).primaryColor,
                               fontSize: 28,
                             ),
@@ -59,7 +58,9 @@ class DetailActivityPage extends StatelessWidget {
                           },
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
-                            side: BorderSide(color: Theme.of(context).primaryColor),
+                            side: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),

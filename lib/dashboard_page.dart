@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'add_activity_page.dart';
 import 'detail_activity_page.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -18,21 +17,64 @@ class _DashboardPageState extends State<DashboardPage> {
     'Menonton Tutorial',
   ];
 
-  void _navigateToAddActivity() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const AddActivityPage()),
-    );
+  void _navigateToAddActivity() {
+    final TextEditingController _activityController = TextEditingController();
 
-    if (result != null && result is String && result.trim().isNotEmpty) {
-      if (!mounted) return;
-      setState(() {
-        activities.add(result.trim());
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Aktivitas berhasil ditambahkan!')),
-      );
-    }
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text('Aktivitas Baru', textAlign: TextAlign.center),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _activityController,
+                decoration: const InputDecoration(
+                  labelText: 'Nama Aktivitas',
+                  prefixIcon: Icon(Icons.add_task),
+                ),
+                autofocus: true,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Batal'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                String activityName = _activityController.text.trim();
+                if (activityName.isNotEmpty) {
+                  Navigator.pop(context, activityName);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Nama aktivitas tidak boleh kosong!')),
+                  );
+                }
+              },
+              child: const Text('Simpan'),
+            ),
+          ],
+        );
+      },
+    ).then((result) {
+      if (result != null && result is String && result.trim().isNotEmpty) {
+        if (!mounted) return;
+        setState(() {
+          activities.add(result.trim());
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Aktivitas berhasil ditambahkan!')),
+        );
+      }
+    });
   }
 
   @override
